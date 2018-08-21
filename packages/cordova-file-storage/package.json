@@ -1,0 +1,16 @@
+{
+  "name": "@lokidb/cordova-file-storage",
+  "description": "A persistence adapter which persists to node fs module storage.",
+  "author": "Various authors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LokiJS-Forge/LokiDB.git"
+  },
+  "main": "lokidb.cordova-file-storage.js",
+  "types": "./types/cordova-file-storage/src/index.d.ts",
+  "dependencies": {
+    "@lokidb/loki": "^2.0.0-beta.7",
+    "cordova": "^8.0.0"
+  }
+}

@@ -8,6 +8,7 @@ export const PACKAGES = [
   "local-storage",
   "indexed-storage",
   "fs-storage",
+  "cordova-file-storage",
   "memory-storage",
   "full-text-search",
   "full-text-search-language",

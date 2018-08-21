@@ -155,7 +155,8 @@ export class Loki extends LokiEventEmitter {
       "fs-storage": PLUGINS["FSStorage"],
       "local-storage": PLUGINS["LocalStorage"],
       "indexed-storage": PLUGINS["IndexedStorage"],
-      "memory-storage": PLUGINS["MemoryStorage"]
+      "memory-storage": PLUGINS["MemoryStorage"],
+      "cordova-file-storage": PLUGINS["CordovaFileStorage"]
     };
 
     // process the options
@@ -1102,7 +1103,7 @@ export namespace Loki {
 
   export type SerializationMethod = "normal" | "pretty" | "destructured";
 
-  export type PersistenceMethod = "fs-storage" | "local-storage" | "indexed-storage" | "memory-storage" | "adapter";
+  export type PersistenceMethod = "fs-storage" | "cordova-file-storage" | "local-storage" | "indexed-storage" | "memory-storage" | "adapter";
 
   export type Environment = "NATIVESCRIPT" | "NODEJS" | "CORDOVA" | "BROWSER" | "MEMORY";
 }

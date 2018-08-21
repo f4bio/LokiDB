@@ -70,7 +70,7 @@ export class Collection<TData extends object = object, TNested extends object = 
   // user defined indexes
   public _rangedIndexes: { [P in keyof T]?: Collection.RangedIndexMeta } = {};
   // loki obj map
-  public _lokimap: { [$loki : number]: Doc<T> } = {};
+  public _lokimap: { [$loki: number]: Doc<T> } = {};
 
   /**
    * Unique constraints contain duplicate object references, so they are not persisted.
@@ -80,7 +80,7 @@ export class Collection<TData extends object = object, TNested extends object = 
     unique: {
       [P in keyof T]?: UniqueIndex;
     }
-  } = {unique: {}};
+  } = { unique: {} };
 
   /**
    * Transforms will be used to store frequently used query chains as a series of steps which itself can be stored along
@@ -258,7 +258,7 @@ export class Collection<TData extends object = object, TNested extends object = 
       for (let i = 0; i < options.nestedProperties.length; i++) {
         const nestedProperty = options.nestedProperties[i];
         if (typeof nestedProperty === "string") {
-          this._nestedProperties.push({name: nestedProperty, path: nestedProperty.split(".")});
+          this._nestedProperties.push({ name: nestedProperty, path: nestedProperty.split(".") });
         } else {
           this._nestedProperties.push(nestedProperty as { name: keyof TNested, path: string[] });
         }
@@ -298,7 +298,7 @@ export class Collection<TData extends object = object, TNested extends object = 
     return {
       name: this.name,
       _dynamicViews: this._dynamicViews,
-      uniqueNames: Object.keys(this._constraints.unique),
+      uniqueNames: Object.keys((this._constraints) ? this._constraints.unique : {}),
       transforms: this._transforms as any,
       rangedIndexes: this._rangedIndexes as any,
       _data: this._data,
@@ -756,7 +756,7 @@ export class Collection<TData extends object = object, TNested extends object = 
    * Empties the collection.
    * @param {boolean} [removeIndices=false] - remove indices
    */
-  public clear({removeIndices: removeIndices = false} = {}) {
+  public clear({ removeIndices: removeIndices = false } = {}) {
     this._data = [];
     this._idIndex = [];
     this._cached = null;
@@ -1016,7 +1016,7 @@ export class Collection<TData extends object = object, TNested extends object = 
       const position = arr[1];
 
       // already converted but let's narrow to make typescript happy
-      let aDoc : Doc<T> = (typeof doc === "number") ? this.get(doc) : doc;
+      let aDoc: Doc<T> = (typeof doc === "number") ? this.get(doc) : doc;
       Object.keys(this._constraints.unique).forEach((key) => {
         if (key in aDoc) {
           this._constraints.unique[key].remove(aDoc.$loki);
@@ -1092,7 +1092,7 @@ export class Collection<TData extends object = object, TNested extends object = 
 
   private _getObjectDelta(oldObject: Doc<TData>, newObject: Doc<TData>) {
     const propertyNames = newObject !== null && typeof newObject === "object" ? Object.keys(newObject) : null;
-    if (propertyNames && propertyNames.length && ["string", "boolean", "number"].indexOf(typeof(newObject)) < 0) {
+    if (propertyNames && propertyNames.length && ["string", "boolean", "number"].indexOf(typeof (newObject)) < 0) {
       const delta = {};
       for (let i = 0; i < propertyNames.length; i++) {
         const propertyName = propertyNames[i];
@@ -1432,8 +1432,8 @@ export class Collection<TData extends object = object, TNested extends object = 
    * @returns {ResultSet} Result of the mapping operation
    */
   public eqJoin(joinData: Collection<any> | ResultSet<any> | any[], leftJoinProp: string | ((obj: any) => string),
-                rightJoinProp: string | ((obj: any) => string), mapFun?: (left: any, right: any) => any,
-                dataOptions?: ResultSet.DataOptions): ResultSet<any> {
+    rightJoinProp: string | ((obj: any) => string), mapFun?: (left: any, right: any) => any,
+    dataOptions?: ResultSet.DataOptions): ResultSet<any> {
     return new ResultSet(this).eqJoin(joinData, leftJoinProp, rightJoinProp, mapFun, dataOptions);
   }
 
