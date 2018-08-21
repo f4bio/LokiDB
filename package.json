@@ -18,6 +18,7 @@
     "coverage": "istanbul report json lcov && nyc report --nycrc-path config/nycrc.json",
     "docs": "typedoc --tsconfig tsconfig.json packages/",
     "build": "ts-node scripts/build.ts",
+    "build:dist": "ts-node scripts/build.ts --dist",
     "deploy": "ts-node scripts/deploy.ts",
     "benchmark": "node --expose-gc benchmark/benchmark",
     "benchmark:indexes": "node --expose-gc benchmark/benchmark_indexes"
