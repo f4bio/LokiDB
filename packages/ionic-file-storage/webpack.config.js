@@ -7,7 +7,6 @@ module.exports = webpackConigCreator({
   filename: "lokidb.ionic-file-storage.js",
   library: "@lokidb/ionic-file-storage",
   externals: {
-    "../../loki/src/loki": "@lokidb/loki",
-    "File": "@ionic-native/file"
+    "../../loki/src/loki": "@lokidb/loki"
   },
 });

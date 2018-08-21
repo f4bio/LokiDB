@@ -73,5 +73,7 @@
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ionic-native/file": "^4.12.0"
+  }
 }

@@ -1,24 +1,24 @@
 /* global describe, it, expect */
 import { Loki } from "../../../loki/src";
-import { CordovaFileStorage } from "../../src/cordova_file_storage";
+import { IonicFileStorage } from "../../src/ionic_file_storage";
 
-describe("testing fs storage", function() {
+describe("testing ionic file storage", function() {
 
   interface Name {
     name: string;
   }
 
   beforeAll(() => {
-    CordovaFileStorage.register();
+    IonicFileStorage.register();
   });
 
   afterAll(() => {
-    CordovaFileStorage.deregister();
+    IonicFileStorage.deregister();
   });
 
   it("LokiFSStorage", function(done) {
     const db = new Loki("myTestApp");
-    const adapter = { adapter: new CordovaFileStorage() };
+    const adapter = { adapter: new IonicFileStorage() };
     db.initializePersistence(adapter)
       .then(() => {
         db.addCollection<Name>("myColl").insert({ name: "Hello World" });
@@ -35,7 +35,7 @@ describe("testing fs storage", function() {
       })
       .then(() => {
         const db2 = new Loki("myTestApp");
-        return db2.initializePersistence({ persistenceMethod: "cordova-file-storage" })
+        return db2.initializePersistence({ persistenceMethod: "ionic-file-storage" })
           .then(() => {
             return db2.loadDatabase();
           }).then(() => {

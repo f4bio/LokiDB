@@ -5666,7 +5666,7 @@ loki["a" /* Loki */]["Collection"] = collection["a" /* Collection */];
 
 // CONCATENATED MODULE: ./packages/ionic-file-storage/src/ionic_file_storage.ts
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IonicFileStorage", function() { return ionic_file_storage_IonicFileStorage; });
-// import { FileEntry, File, IWriteOptions, RemoveResult } from "@ionic-native/file";
+// import { File } from "@ionic-native/file";
 
 
 /**

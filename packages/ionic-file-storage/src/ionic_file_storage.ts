@@ -1,4 +1,4 @@
-// import { FileEntry, File, IWriteOptions, RemoveResult } from "@ionic-native/file";
+// import { File } from "@ionic-native/file";
 import { PLUGINS } from "../../common/plugin";
 import { StorageAdapter } from "../../common/types";
 import { Loki } from "../../loki/src";
