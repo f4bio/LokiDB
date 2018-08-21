@@ -19,6 +19,7 @@
     "docs": "typedoc --tsconfig tsconfig.json packages/",
     "build": "ts-node scripts/build.ts",
     "build:dist": "ts-node scripts/build.ts --dist",
+    "clean": "rm -rf ./build && rm -rf ./dist",
     "deploy": "ts-node scripts/deploy.ts",
     "benchmark": "node --expose-gc benchmark/benchmark",
     "benchmark:indexes": "node --expose-gc benchmark/benchmark_indexes"
@@ -71,5 +72,6 @@
     "vrsource-tslint-rules": "^5.8.2",
     "webpack": "^4.12.0",
     "webpack-cli": "^3.0.3"
-  }
+  },
+  "dependencies": {}
 }

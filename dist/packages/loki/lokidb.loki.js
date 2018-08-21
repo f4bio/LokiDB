@@ -4751,6 +4751,7 @@ class Loki extends _event_emitter__WEBPACK_IMPORTED_MODULE_0__[/* LokiEventEmitt
         this._autosaveInterval = 5000;
         this._autosaveRunning = false;
         this._autosaveHandler = Promise.resolve();
+        this._inflate = {};
         this.filename = filename;
         this._collections = [];
         ({
@@ -4796,18 +4797,25 @@ class Loki extends _event_emitter__WEBPACK_IMPORTED_MODULE_0__[/* LokiEventEmitt
      */
     initializePersistence(options = {}) {
         let loaded = this._autosaveDisable();
-        ({
-            autosave: this._autosave = false,
-            autosaveInterval: this._autosaveInterval = 5000,
-            persistenceMethod: this._persistenceMethod,
-            // TODO
-            //inflate: this.options.inflate,
-            throttledSaves: this._throttledSaves = true
-        } = options);
+        this._autosave = (options.autosave || this._autosave);
+        this._autosaveInterval = (options.autosaveInterval || this._autosaveInterval);
+        this._persistenceMethod = (options.persistenceMethod || this._persistenceMethod);
+        this._throttledSaves = (options.throttledSaves || this._throttledSaves);
+        this._inflate = (options.inflate || this._inflate);
+        // (
+        //   {
+        //     autosave: this._autosave = false,
+        //     autosaveInterval: this._autosaveInterval = 5000,
+        //     persistenceMethod: this._persistenceMethod,
+        //     // TODO
+        //     //inflate: this.options.inflate,
+        //     throttledSaves: this._throttledSaves = true
+        //   } = options
+        // );
         const DEFAULT_PERSISTENCE = {
             "NODEJS": ["fs-storage"],
             "BROWSER": ["local-storage", "indexed-storage"],
-            "CORDOVA": ["local-storage", "indexed-storage"],
+            "CORDOVA": ["cordova-file-storage", "ionic-file-storage", "local-storage", "indexed-storage"],
             "MEMORY": ["memory-storage"]
         };
         const PERSISTENCE_METHODS = {
@@ -4815,7 +4823,8 @@ class Loki extends _event_emitter__WEBPACK_IMPORTED_MODULE_0__[/* LokiEventEmitt
             "local-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["LocalStorage"],
             "indexed-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["IndexedStorage"],
             "memory-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["MemoryStorage"],
-            "cordova-file-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["CordovaFileStorage"]
+            "cordova-file-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["CordovaFileStorage"],
+            "ionic-file-storage": _common_plugin__WEBPACK_IMPORTED_MODULE_2__[/* PLUGINS */ "a"]["IonicFileStorage"]
         };
         // process the options
         if (this._persistenceMethod !== undefined) {
@@ -4982,7 +4991,7 @@ class Loki extends _event_emitter__WEBPACK_IMPORTED_MODULE_0__[/* LokiEventEmitt
             case "pretty":
                 return JSON.stringify(this, null, 2);
             case "destructured":
-                return this.serializeDestructured(); // use default options
+                return JSON.stringify(this.serializeDestructured()); // use default options
             default:
                 return JSON.stringify(this);
         }

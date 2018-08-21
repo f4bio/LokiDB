@@ -19,6 +19,7 @@ export declare class Loki extends LokiEventEmitter {
     private _autosaveInterval;
     private _autosaveRunning;
     private _autosaveHandler;
+    private _inflate;
     /**
      * Constructs the main database class.
      * @param {string} filename - name of the file to be saved to
@@ -95,7 +96,7 @@ export declare class Loki extends LokiEventEmitter {
      *
      * @returns {string} Stringified representation of the loki database.
      */
-    serialize(options?: Loki.SerializeOptions): string | string[];
+    serialize(options?: Loki.SerializeOptions): string;
     toJSON(): Loki.Serialized;
     /**
      * Database level destructured JSON serialization routine to allow alternate serialization methods.
@@ -331,6 +332,6 @@ export declare namespace Loki {
     }
     type LoadDatabaseOptions = Collection.DeserializeOptions & ThrottledDrainOptions;
     type SerializationMethod = "normal" | "pretty" | "destructured";
-    type PersistenceMethod = "fs-storage" | "cordova-file-storage" | "local-storage" | "indexed-storage" | "memory-storage" | "adapter";
+    type PersistenceMethod = "fs" | "localStorage" | "adapter";
     type Environment = "NATIVESCRIPT" | "NODEJS" | "CORDOVA" | "BROWSER" | "MEMORY";
 }

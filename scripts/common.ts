@@ -9,6 +9,7 @@ export const PACKAGES = [
   "indexed-storage",
   "fs-storage",
   "cordova-file-storage",
+  "ionic-file-storage",
   "memory-storage",
   "full-text-search",
   "full-text-search-language",

@@ -67,6 +67,8 @@ export class Loki extends LokiEventEmitter {
   private _autosaveRunning: boolean = false;
   private _autosaveHandler: Promise<void> = Promise.resolve();
 
+  private _inflate = {};
+
   /**
    * Constructs the main database class.
    * @param {string} filename - name of the file to be saved to
@@ -132,22 +134,27 @@ export class Loki extends LokiEventEmitter {
   public initializePersistence(options: Loki.PersistenceOptions = {}): Promise<void> {
 
     let loaded = this._autosaveDisable();
+    this._autosave = (options.autosave || this._autosave);
+    this._autosaveInterval = (options.autosaveInterval || this._autosaveInterval);
+    this._persistenceMethod = (options.persistenceMethod || this._persistenceMethod);
+    this._throttledSaves = (options.throttledSaves || this._throttledSaves);
+    this._inflate = (options.inflate || this._inflate);
 
-    (
-      {
-        autosave: this._autosave = false,
-        autosaveInterval: this._autosaveInterval = 5000,
-        persistenceMethod: this._persistenceMethod,
-        // TODO
-        //inflate: this.options.inflate,
-        throttledSaves: this._throttledSaves = true
-      } = options
-    );
+    // (
+    //   {
+    //     autosave: this._autosave = false,
+    //     autosaveInterval: this._autosaveInterval = 5000,
+    //     persistenceMethod: this._persistenceMethod,
+    //     // TODO
+    //     //inflate: this.options.inflate,
+    //     throttledSaves: this._throttledSaves = true
+    //   } = options
+    // );
 
     const DEFAULT_PERSISTENCE = {
       "NODEJS": ["fs-storage"],
       "BROWSER": ["local-storage", "indexed-storage"],
-      "CORDOVA": ["local-storage", "indexed-storage"],
+      "CORDOVA": ["cordova-file-storage", "ionic-file-storage", "local-storage", "indexed-storage"],
       "MEMORY": ["memory-storage"]
     };
 
@@ -156,7 +163,8 @@ export class Loki extends LokiEventEmitter {
       "local-storage": PLUGINS["LocalStorage"],
       "indexed-storage": PLUGINS["IndexedStorage"],
       "memory-storage": PLUGINS["MemoryStorage"],
-      "cordova-file-storage": PLUGINS["CordovaFileStorage"]
+      "cordova-file-storage": PLUGINS["CordovaFileStorage"],
+      "ionic-file-storage": PLUGINS["IonicFileStorage"]
     };
 
     // process the options
@@ -330,7 +338,7 @@ export class Loki extends LokiEventEmitter {
    *
    * @returns {string} Stringified representation of the loki database.
    */
-  public serialize(options: Loki.SerializeOptions = {}) {
+  public serialize(options: Loki.SerializeOptions = {}): string {
     if (options.serializationMethod === undefined) {
       options.serializationMethod = this._serializationMethod;
     }
@@ -341,7 +349,7 @@ export class Loki extends LokiEventEmitter {
       case "pretty":
         return JSON.stringify(this, null, 2);
       case "destructured":
-        return this.serializeDestructured(); // use default options
+        return JSON.stringify(this.serializeDestructured()); // use default options
       default:
         return JSON.stringify(this);
     }
@@ -1103,7 +1111,7 @@ export namespace Loki {
 
   export type SerializationMethod = "normal" | "pretty" | "destructured";
 
-  export type PersistenceMethod = "fs-storage" | "cordova-file-storage" | "local-storage" | "indexed-storage" | "memory-storage" | "adapter";
+  export type PersistenceMethod = "fs" | "localStorage" | "adapter";
 
   export type Environment = "NATIVESCRIPT" | "NODEJS" | "CORDOVA" | "BROWSER" | "MEMORY";
 }
